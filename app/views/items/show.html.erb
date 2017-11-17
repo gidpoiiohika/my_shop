@@ -1,0 +1,18 @@
+<tr>
+  <% if user_signed_in? %>
+    <span>Здравствуйте, <%= current_user.email %></span>
+    <%= link_to 'Выйти', destroy_user_session_path, :method => :delete %>
+  <% else %>
+    <%= link_to 'Войти', new_user_session_path %> или <%= link_to 'Зарегистрироваться', new_user_registration_path %>
+  <% end %>
+</tr>
+
+<h1><%= @item.name %></h1> <!выводем названия товара>
+<ul>
+	<li><%= @item.price %>руб.</li> <!цена товара>
+	<li><%= urls_to_links(urls_to_images(@item.description)) %></li> <!описания товара>
+	<li>Вес: <%= @item.weight %>кг.</li> <!вес товара>
+	<li><%= image_tag @item.image.url(:medium) %></li>
+</ul>
+
+<%= render  partial: "devise/shared/email" %>

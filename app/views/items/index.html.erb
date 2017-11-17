@@ -1,0 +1,38 @@
+<% if user_signed_in? %>
+  <span>Здравствуйте, <%= current_user.email %></span>
+  <%= link_to 'Выйти', destroy_user_session_path, :method => :delete %>
+<% else %>
+  <%= link_to 'Войти', new_user_session_path %> или <%= link_to 'Зарегистрироваться', new_user_registration_path %>
+<% end %>
+
+<h1>Items</h1>
+
+<% if @items.empty? %>
+  <b>No items in store</b>
+<% else %>
+  <table>
+    <tr>
+      <th>item id</th>
+      <th>Name</th>
+      <th>Price</th>
+      <th>Описания</th>
+      <th>Дата создания товара</th>
+      <th></th>
+      <th>Рейтинг</th>
+      <th>Image</th>
+    </tr>
+
+    <% @items.each do |i| %>
+      <tr>
+        <td><%= i.id %></td>
+        <td><%= link_to i.name, item_path(i) %></td>
+        <td><%= i.price %> руб.</td>
+        <td><%= i.description %></td>
+        <td><%= i.created_at.to_s.sub("2016", "2017") %></td>
+        <td><%= link_to "Удалить", i, method: :delete, data: {confirm: "Точно удалить?" }%> </td>
+        <td>Рейтинг: <%= i.votes_count %>, <%= link_to "+", upvote_item_path(i) %></td>
+        <td><%= image_tag i.image.url(:medium) %></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>
